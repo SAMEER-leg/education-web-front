@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { BookOpen, ArrowLeft } from 'lucide-react';
 import { subjects } from '../../data/cmsData';
@@ -9,14 +9,13 @@ export default function SectionsPage() {
   const subject = subjects[subjectId];
   if (!subject) {
     return <div className="min-h-screen flex items-center justify-center">
-        <p className="text-[#94A3B8]">Subject not found</p>
+        <p className="text-gray-800">Subject not found</p>
       </div>;
   }
 
-  // IGCSE goes directly to lessons
+  // IGCSE/O-Level goes directly to lessons (no sections structure)
   if (subject.sections.length === 0) {
-    window.location.href = `/subjects/${subjectId}/igcse`;
-    return null;
+    return <Navigate to={`/subjects/${subjectId}/igcse`} replace />;
   }
   return <div className="min-h-screen py-20 px-4">
       <div className="max-w-6xl mx-auto">

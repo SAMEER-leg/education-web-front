@@ -10,6 +10,12 @@ export default function LessonsListPage() {
   const lessons = getLessonsBySection(sectionId || '');
   const subject = subjects[subjectId];
   const section = subject?.sections.find(s => s.id === sectionId);
+  
+  // For IGCSE/O-Level (no sections), go back to subjects page
+  // For AS/A2 Level (has sections), go back to sections page
+  const backLink = subject?.sections.length === 0 ? '/subjects' : `/subjects/${subjectId}`;
+  const backText = subject?.sections.length === 0 ? 'Back to Subjects' : 'Back to Sections';
+  
   return <div className="min-h-screen py-20 px-4">
       <div className="max-w-6xl mx-auto">
         <motion.div initial={{
@@ -21,9 +27,9 @@ export default function LessonsListPage() {
       }} transition={{
         duration: 0.4
       }}>
-          <Link to={`/subjects/${subjectId}`} className="inline-flex items-center text-[#94A3B8] hover:text-white transition-colors mb-8">
+          <Link to={backLink} className="inline-flex items-center text-[#94A3B8] hover:text-white transition-colors mb-8">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Sections
+            {backText}
           </Link>
         </motion.div>
 
@@ -36,9 +42,9 @@ export default function LessonsListPage() {
       }} transition={{
         duration: 0.6
       }} className="mb-12">
-          <h1 className="mb-4">{section?.name || sectionId?.toUpperCase()}</h1>
+          <h1 className="mb-4">{section?.name || subject?.name || sectionId?.toUpperCase()}</h1>
           <p className="text-[#94A3B8] text-lg">
-            {section?.description || 'Select a lesson to begin learning'}
+            {section?.description || subject?.description || 'Select a lesson to begin learning'}
           </p>
         </motion.div>
 
@@ -81,7 +87,7 @@ export default function LessonsListPage() {
         </div>
 
         {lessons.length === 0 && <div className="text-center py-20">
-            <p className="text-[#94A3B8]">No lessons available yet</p>
+            <p className="text-gray-800">No lessons available yet. Please check back soon!</p>
           </div>}
       </div>
     </div>;

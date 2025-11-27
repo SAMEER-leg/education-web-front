@@ -72,6 +72,9 @@ export default function Footer() {
               <Link to="/pricing" onClick={(event) => handleNavClick(event, { path: '/pricing', sectionId: 'pricing-plans', fallbackTop: true })} className="block text-[#94A3B8] hover:text-white text-base transition-colors text-center">
                 Pricing
               </Link>
+              <Link to="/contact" onClick={(event) => handleNavClick(event, { path: '/contact', fallbackTop: true })} className="block text-[#94A3B8] hover:text-white text-base transition-colors text-center">
+                Contact Us
+              </Link>
             </div>
           </div>
 

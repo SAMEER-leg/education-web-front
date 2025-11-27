@@ -24,6 +24,7 @@ import SupportPage from './components/pages/SupportPage';
 import AboutPage from './components/pages/AboutPage';
 import SampleContentPage from './components/pages/SampleContentPage';
 import RefundPolicyPage from './components/pages/RefundPolicyPage';
+import ContactUsPage from './components/pages/ContactUsPage';
 import AdminRoute from './components/admin/AdminRoute';
 import AdminDashboard from './components/pages/admin/AdminDashboard';
 import UsersPage from './components/pages/admin/UsersPage';
@@ -103,6 +104,7 @@ function AppShell() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/sample-content" element={<SampleContentPage />} />
             <Route path="/refund-policy" element={<RefundPolicyPage />} />
+            <Route path="/contact" element={<ContactUsPage />} />
             
             {/* Protected Admin Routes - No separate login, use main /login */}
             <Route path="/admin/dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
@@ -159,6 +161,7 @@ function AppShell() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/sample-content" element={<SampleContentPage />} />
             <Route path="/refund-policy" element={<RefundPolicyPage />} />
+            <Route path="/contact" element={<ContactUsPage />} />
           </Routes>
         </motion.main>
       </AnimatePresence>

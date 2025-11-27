@@ -34,7 +34,16 @@ export default function SubjectsPage() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {subjects.map((subject, index) => <motion.div key={subject.id} initial={{
+          {subjects.map((subject, index) => {
+            // For IGCSE/O-Level (no sections), link directly to lessons
+            const linkTo = subject.sections?.length === 0 
+              ? `/subjects/${subject.id}/igcse` 
+              : `/subjects/${subject.id}`;
+            const linkText = subject.sections?.length === 0 
+              ? 'View Lessons' 
+              : 'View Sections';
+            
+            return <motion.div key={subject.id} initial={{
           opacity: 0,
           y: 30
         }} animate={{
@@ -47,7 +56,7 @@ export default function SubjectsPage() {
           y: -12,
           scale: 1.02
         }}>
-              <Link to={`/subjects/${subject.id}`} className="block group">
+              <Link to={linkTo} className="block group">
                 <div className="relative bg-gradient-to-br from-[#0B1D34] to-[#0B1D34]/50 border border-white/10 rounded-3xl p-8 h-full hover:border-white/30 transition-all duration-300 hover:shadow-2xl overflow-hidden">
                   {/* Gradient overlay on hover */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${subject.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
@@ -66,7 +75,7 @@ export default function SubjectsPage() {
                     </p>
 
                     <div className="mt-6 flex items-center text-[#2F6FED] group-hover:text-[#A9C7FF] transition-colors duration-300">
-                      <span className="text-sm">View Sections</span>
+                      <span className="text-sm">{linkText}</span>
                       <svg className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
@@ -74,7 +83,8 @@ export default function SubjectsPage() {
                   </div>
                 </div>
               </Link>
-            </motion.div>)}
+            </motion.div>;
+          })}
         </div>
       </div>
     </div>;

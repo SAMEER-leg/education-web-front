@@ -24,7 +24,7 @@ export default function Navbar() {
     { name: "About", path: "/about" },
     { name: "Sample Content", path: "/sample-content" },
     { name: "Refund Policy", path: "/refund-policy" },
-    { name: "Contact", path: "/support" },
+    { name: "Contact Us", path: "/contact" },
   ];
 
   const scrollToSection = (sectionId) => {
