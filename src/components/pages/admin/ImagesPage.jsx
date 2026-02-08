@@ -3,6 +3,7 @@ import { Upload, Search, Check, X, Trash2, Image as ImageIcon } from 'lucide-rea
 import { toast } from 'react-toastify';
 import AdminLayout from '../../admin/AdminLayout';
 import { getAllImages, uploadImage, approveImage, rejectImage, deleteImage } from '../../../services/adminService';
+import { API_BASE_URL } from '../../../config/api';
 
 export default function ImagesPage() {
   const [images, setImages] = useState([]);
@@ -198,7 +199,7 @@ export default function ImagesPage() {
                 {/* Image Preview */}
                 <div className="relative aspect-square bg-white/5 overflow-hidden">
                   <img
-                    src={`http://localhost:5000${image.url}`}
+                    src={`${API_BASE_URL.replace('/api', '')}${image.url}`}
                     alt={image.title}
                     className="w-full h-full object-cover"
                     onError={(e) => {
