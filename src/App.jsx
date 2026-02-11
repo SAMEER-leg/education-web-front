@@ -1,5 +1,5 @@
 // Deployment trigger: 2026-02-11 (Render Backend Update)
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { ToastContainer } from 'react-toastify';
