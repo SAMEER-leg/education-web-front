@@ -6,40 +6,40 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from './contexts/AuthContext';
 import { SettingsProvider, useSettings } from './contexts/SettingsContext';
-import LoadingScreen from './components/LoadingScreen';
-import DocumentHead from './components/DocumentHead';
-import ErrorBoundary from './components/common/ErrorBoundary';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import HomePage from './components/pages/HomePage';
-import SubjectsPage from './components/pages/SubjectsPage';
-import SectionsPage from './components/pages/SectionsPage';
-import LessonsListPage from './components/pages/LessonsListPage';
-import LessonPage from './components/pages/LessonPage';
-import QuestionPage from './components/pages/QuestionPage';
-import PricingPage from './components/pages/PricingPage';
-import LoginPage from './components/pages/LoginPage';
-import SignupPage from './components/pages/SignupPage';
-import ProfilePage from './components/pages/ProfilePage';
-import ForgotPasswordPage from './components/pages/ForgotPasswordPage';
-import PrivacyPolicyPage from './components/pages/PrivacyPolicyPage';
-import TermsOfServicePage from './components/pages/TermsOfServicePage';
-import SupportPage from './components/pages/SupportPage';
-import AboutPage from './components/pages/AboutPage';
-import SampleContentPage from './components/pages/SampleContentPage';
-import RefundPolicyPage from './components/pages/RefundPolicyPage';
-import ContactUsPage from './components/pages/ContactUsPage';
-import AdminRoute from './components/admin/AdminRoute';
-import AdminDashboard from './components/pages/admin/AdminDashboard';
-import UsersPage from './components/pages/admin/UsersPage';
-import LessonsPage from './components/pages/admin/LessonsPage';
-import NotesPage from './components/pages/admin/NotesPage';
-import QuestionsPage from './components/pages/admin/QuestionsPage';
-import ImagesPage from './components/pages/admin/ImagesPage';
-import PricingPageAdmin from './components/pages/admin/PricingPage';
-import AIConfigPage from './components/pages/admin/AIConfigPage';
-import AdminSubjectsPage from './components/pages/admin/SubjectsPage';
-import SettingsPage from './components/pages/admin/SettingsPage';
+const LoadingScreen = lazy(() => import('./components/LoadingScreen'));
+const DocumentHead = lazy(() => import('./components/DocumentHead'));
+const ErrorBoundary = lazy(() => import('./components/common/ErrorBoundary'));
+const Navbar = lazy(() => import('./components/Navbar'));
+const Footer = lazy(() => import('./components/Footer'));
+const HomePage = lazy(() => import('./components/pages/HomePage'));
+const SubjectsPage = lazy(() => import('./components/pages/SubjectsPage'));
+const SectionsPage = lazy(() => import('./components/pages/SectionsPage'));
+const LessonsListPage = lazy(() => import('./components/pages/LessonsListPage'));
+const LessonPage = lazy(() => import('./components/pages/LessonPage'));
+const QuestionPage = lazy(() => import('./components/pages/QuestionPage'));
+const PricingPage = lazy(() => import('./components/pages/PricingPage'));
+const LoginPage = lazy(() => import('./components/pages/LoginPage'));
+const SignupPage = lazy(() => import('./components/pages/SignupPage'));
+const ProfilePage = lazy(() => import('./components/pages/ProfilePage'));
+const ForgotPasswordPage = lazy(() => import('./components/pages/ForgotPasswordPage'));
+const PrivacyPolicyPage = lazy(() => import('./components/pages/PrivacyPolicyPage'));
+const TermsOfServicePage = lazy(() => import('./components/pages/TermsOfServicePage'));
+const SupportPage = lazy(() => import('./components/pages/SupportPage'));
+const AboutPage = lazy(() => import('./components/pages/AboutPage'));
+const SampleContentPage = lazy(() => import('./components/pages/SampleContentPage'));
+const RefundPolicyPage = lazy(() => import('./components/pages/RefundPolicyPage'));
+const ContactUsPage = lazy(() => import('./components/pages/ContactUsPage'));
+const AdminRoute = lazy(() => import('./components/admin/AdminRoute'));
+const AdminDashboard = lazy(() => import('./components/pages/admin/AdminDashboard'));
+const UsersPage = lazy(() => import('./components/pages/admin/UsersPage'));
+const LessonsPage = lazy(() => import('./components/pages/admin/LessonsPage'));
+const NotesPage = lazy(() => import('./components/pages/admin/NotesPage'));
+const QuestionsPage = lazy(() => import('./components/pages/admin/QuestionsPage'));
+const ImagesPage = lazy(() => import('./components/pages/admin/ImagesPage'));
+const PricingPageAdmin = lazy(() => import('./components/pages/admin/PricingPage'));
+const AIConfigPage = lazy(() => import('./components/pages/admin/AIConfigPage'));
+const AdminSubjectsPage = lazy(() => import('./components/pages/admin/SubjectsPage'));
+const SettingsPage = lazy(() => import('./components/pages/admin/SettingsPage'));
 
 
 export default function App() {
@@ -55,14 +55,10 @@ function AppContent() {
   const { settings, loading: settingsLoading } = useSettings();
 
   useEffect(() => {
-    // Wait for settings to load, then show app
-    // No artificial delay - better UX
     if (!settingsLoading) {
-      // Small delay only for smooth transition (500ms max)
       const timer = setTimeout(() => {
         setLoading(false);
-      }, 4000);
-
+      }, 500); // Reduced to 500ms for quick entry but smooth transition
       return () => clearTimeout(timer);
     }
   }, [settingsLoading]);
@@ -80,8 +76,8 @@ function AppContent() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <ErrorBoundary>
-              <AuthProvider>
+            <Suspense fallback={<LoadingScreen settings={settings} />}>
+              <ErrorBoundary>
                 <AuthProvider>
                   <AppShell />
                   <ToastContainer
@@ -97,8 +93,8 @@ function AppContent() {
                     theme="dark"
                   />
                 </AuthProvider>
-              </AuthProvider>
-            </ErrorBoundary>
+              </ErrorBoundary>
+            </Suspense>
           </motion.div>
         )}
       </AnimatePresence>
@@ -112,7 +108,7 @@ function AppShell() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo(0, 0);
     }
   }, [location.pathname]);
 

@@ -10,20 +10,70 @@ import { sendAIMessage as sendAIMessageService } from '../services/chatService';
 // Helper function to format message text with markdown-like support
 const formatMessageText = (text) => {
   if (!text) return '';
-
   let formatted = text;
-
-  // Convert **bold** to <strong> tags
   formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-
-  // Convert bullet points (• or -) to proper bullets
   formatted = formatted.replace(/^[•\-]\s+/gm, '• ');
-
-  // Preserve line breaks
   formatted = formatted.replace(/\n/g, '<br />');
-
   return formatted;
 };
+
+// Memoized Message Item to prevent unnecessary re-renders
+import { memo } from 'react';
+
+const MessageItem = memo(({ message, index, onDelete }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2 }}
+      className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} group`}
+    >
+      <div className="relative flex items-start gap-2">
+        <button
+          onClick={() => onDelete(index)}
+          className={`opacity-0 group-hover:opacity-100 transition-opacity p-1.5 hover:bg-red-500/20 rounded-lg ${message.sender === 'user' ? 'order-2' : 'order-1'}`}
+          title="Delete message"
+        >
+          <Trash2 className="w-4 h-4 text-red-400" />
+        </button>
+
+        <div
+          className={`${message.image ? 'max-w-[75%]' : 'max-w-[85%]'} px-4 py-3 rounded-2xl shadow-lg transition-all duration-300 ease-in-out ${message.sender === 'user'
+            ? 'text-white rounded-br-md order-1'
+            : 'bg-gradient-to-br from-white/10 to-white/5 text-[#E2E8F0] border border-white/10 rounded-bl-md order-2'
+            }`}
+          style={message.sender === 'user' ? {
+            background: 'linear-gradient(50deg, #11282b, #06b5cc)',
+            willChange: 'transform'
+          } : { willChange: 'transform' }}
+        >
+          {message.image && (
+            <div className="mb-3 bg-white/5 p-2 rounded-lg">
+              <img
+                src={message.image}
+                alt="Uploaded homework"
+                className="rounded-lg w-full h-auto max-h-48 object-contain border border-white/10"
+                loading="lazy"
+              />
+            </div>
+          )}
+          <div
+            className="text-sm leading-relaxed formatted-message"
+            dangerouslySetInnerHTML={{ __html: formatMessageText(message.text) }}
+          />
+          {message.sender === 'ai' && message.confidence && (
+            <div className="mt-3 pt-2 border-t border-white/10">
+              <span className="inline-flex items-center gap-1 px-3 py-1 text-xs bg-green-500/20 text-green-400 rounded-full font-medium">
+                <span className="text-green-400">✓</span>
+                {message.confidence} confidence
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+});
 
 export default function AITutorChat() {
   const [isOpen, setIsOpen] = useState(false);
@@ -231,11 +281,9 @@ export default function AITutorChat() {
       if (lessonContext) {
         checkAndShowWelcome();
       } else {
-        // Otherwise wait a bit for lesson context to load
         const timeout = setTimeout(() => {
           checkAndShowWelcome();
-        }, 1000); // Increased timeout to allow lesson context to load
-
+        }, 100); // Reduced from 1000ms
         return () => clearTimeout(timeout);
       }
     }
@@ -519,7 +567,7 @@ export default function AITutorChat() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+              className="fixed inset-0 bg-black/40 z-40 md:hidden" // Removed backdrop-blur for performance
             />
 
             {/* Chat Window */}
@@ -528,9 +576,10 @@ export default function AITutorChat() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 400 }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed bottom-0 right-0 w-full md:bottom-6 md:right-6 md:w-96 bg-[#111113] border-l md:border border-white/10 md:rounded-2xl shadow-2xl z-50 flex flex-col"
+              className="fixed bottom-0 right-0 w-full md:bottom-6 md:right-6 md:w-96 bg-[#111113] border-l md:border border-white/10 md:rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden"
               style={{
-                height: chatHeight
+                height: chatHeight,
+                willChange: 'transform, opacity'
               }}
             >
               {/* Header */}
@@ -578,67 +627,12 @@ export default function AITutorChat() {
                 }}
               >
                 {messages.map((message, index) => (
-                  <motion.div
+                  <MessageItem
                     key={index}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} group`}
-                  >
-                    <div className="relative flex items-start gap-2">
-                      {/* Delete button (appears on hover) */}
-                      <button
-                        onClick={() => deleteMessage(index)}
-                        className={`opacity-0 group-hover:opacity-100 transition-opacity p-1.5 hover:bg-red-500/20 rounded-lg ${message.sender === 'user' ? 'order-2' : 'order-1'
-                          }`}
-                        title="Delete message"
-                      >
-                        <Trash2 className="w-4 h-4 text-red-400" />
-                      </button>
-
-                      {/* Message content */}
-                      <div
-                        className={`${message.image ? 'max-w-[75%]' : 'max-w-[85%]'} px-4 py-3 rounded-2xl shadow-lg transition-all duration-300 ease-in-out ${message.sender === 'user'
-                          ? 'text-white rounded-br-md order-1'
-                          : 'bg-gradient-to-br from-white/10 to-white/5 text-[#E2E8F0] border border-white/10 rounded-bl-md order-2'
-                          }`}
-                        style={message.sender === 'user' ? {
-                          background: 'linear-gradient(50deg, #11282b, #06b5cc)'
-                        } : {}}
-                      >
-                        {/* Display image if present */}
-                        {message.image && (
-                          <div className="mb-3 bg-white/5 p-2 rounded-lg">
-                            <img
-                              src={message.image}
-                              alt="Uploaded homework"
-                              className="rounded-lg w-full h-auto max-h-48 object-contain border border-white/10"
-                              style={{ maxWidth: '100%' }}
-                            />
-                            {message.imageFile && (
-                              <p className="text-xs mt-1.5 opacity-60 flex items-center gap-1 truncate">
-                                <span>📎</span>
-                                <span className="truncate">{message.imageFile}</span>
-                              </p>
-                            )}
-                          </div>
-                        )}
-                        <div
-                          className="text-sm leading-relaxed formatted-message"
-                          dangerouslySetInnerHTML={{ __html: formatMessageText(message.text) }}
-                        />
-                        {/* Show confidence badge for AI responses */}
-                        {message.sender === 'ai' && message.confidence && (
-                          <div className="mt-3 pt-2 border-t border-white/10">
-                            <span className="inline-flex items-center gap-1 px-3 py-1 text-xs bg-green-500/20 text-green-400 rounded-full font-medium">
-                              <span className="text-green-400">✓</span>
-                              {message.confidence} confidence
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </motion.div>
+                    message={message}
+                    index={index}
+                    onDelete={deleteMessage}
+                  />
                 ))}
 
                 {/* Loading Indicator */}
