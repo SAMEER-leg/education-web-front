@@ -184,10 +184,15 @@
     font-feature-settings: var(--default-font-feature-settings, normal);
     font-variation-settings: var(--default-font-variation-settings, normal);
     -webkit-tap-highlight-color: transparent;
+    background-color: #0B0B0D;
+    /* Prevent white flash */
   }
 
   body {
     line-height: inherit;
+    background-color: #0B0B0D;
+    /* Prevent white flash */
+    color: white;
   }
 
   hr {

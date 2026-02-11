@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from './contexts/AuthContext';
 import { SettingsProvider, useSettings } from './contexts/SettingsContext';
 const LoadingScreen = lazy(() => import('./components/LoadingScreen'));
+import PageLoading from './components/common/PageLoading';
 const DocumentHead = lazy(() => import('./components/DocumentHead'));
 const ErrorBoundary = lazy(() => import('./components/common/ErrorBoundary'));
 const Navbar = lazy(() => import('./components/Navbar'));
@@ -58,7 +59,7 @@ function AppContent() {
     if (!settingsLoading) {
       const timer = setTimeout(() => {
         setLoading(false);
-      }, 4500); // Increased to 4.5s to allow full animation and branding visibility
+      }, 3000); // Reduced to 3s for better balance between branding and speed
       return () => clearTimeout(timer);
     }
   }, [settingsLoading]);
@@ -76,29 +77,23 @@ function AppContent() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <Suspense fallback={
-              <div className="fixed inset-0 bg-[#0B0B0D] flex items-center justify-center z-[9999]">
-                <div className="w-12 h-12 border-4 border-white/10 border-t-[#06b5cc] rounded-full animate-spin" />
-              </div>
-            }>
-              <ErrorBoundary>
-                <AuthProvider>
-                  <AppShell />
-                  <ToastContainer
-                    position="top-right"
-                    autoClose={3000}
-                    hideProgressBar={false}
-                    newestOnTop
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="dark"
-                  />
-                </AuthProvider>
-              </ErrorBoundary>
-            </Suspense>
+            <ErrorBoundary>
+              <AuthProvider>
+                <AppShell />
+                <ToastContainer
+                  position="top-right"
+                  autoClose={3000}
+                  hideProgressBar={false}
+                  newestOnTop
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  theme="dark"
+                />
+              </AuthProvider>
+            </ErrorBoundary>
           </motion.div>
         )}
       </AnimatePresence>
@@ -119,44 +114,46 @@ function AppShell() {
   // Admin routes have their own layout, so don't wrap them
   if (isAdminRoute) {
     return (
-      <Routes location={location}>
-        {/* Public Routes */}
-        <Route path="/" element={<HomePage />} />
-        <Route path="/subjects" element={<SubjectsPage />} />
-        <Route path="/subjects/:subjectId" element={<SectionsPage />} />
-        <Route path="/subjects/:subjectId/lessons" element={<LessonsListPage />} />
-        <Route path="/subjects/:subjectId/:sectionId" element={<LessonsListPage />} />
-        <Route path="/lesson/:lessonId" element={<LessonPage />} />
-        <Route path="/lesson/:lessonId/questions" element={<QuestionPage />} />
-        <Route path="/pricing" element={<PricingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-        <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-        <Route path="/support" element={<SupportPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/sample-content" element={<SampleContentPage />} />
-        <Route path="/refund-policy" element={<RefundPolicyPage />} />
-        <Route path="/contact" element={<ContactUsPage />} />
+      <Suspense fallback={<PageLoading />}>
+        <Routes location={location}>
+          {/* Public Routes */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/subjects" element={<SubjectsPage />} />
+          <Route path="/subjects/:subjectId" element={<SectionsPage />} />
+          <Route path="/subjects/:subjectId/lessons" element={<LessonsListPage />} />
+          <Route path="/subjects/:subjectId/:sectionId" element={<LessonsListPage />} />
+          <Route path="/lesson/:lessonId" element={<LessonPage />} />
+          <Route path="/lesson/:lessonId/questions" element={<QuestionPage />} />
+          <Route path="/pricing" element={<PricingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+          <Route path="/support" element={<SupportPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/sample-content" element={<SampleContentPage />} />
+          <Route path="/refund-policy" element={<RefundPolicyPage />} />
+          <Route path="/contact" element={<ContactUsPage />} />
 
-        {/* Protected Admin Routes - No separate login, use main /login */}
-        <Route path="/admin/dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-        <Route path="/admin/users" element={<AdminRoute><UsersPage /></AdminRoute>} />
-        <Route path="/admin/lessons" element={<AdminRoute><LessonsPage /></AdminRoute>} />
-        <Route path="/admin/notes" element={<AdminRoute><NotesPage /></AdminRoute>} />
-        <Route path="/admin/questions" element={<AdminRoute><QuestionsPage /></AdminRoute>} />
-        <Route path="/admin/images" element={<AdminRoute><ImagesPage /></AdminRoute>} />
-        <Route path="/admin/pricing" element={<AdminRoute><PricingPageAdmin /></AdminRoute>} />
-        <Route path="/admin/ai-config" element={<AdminRoute><AIConfigPage /></AdminRoute>} />
-        <Route path="/admin/subjects" element={<AdminRoute><AdminSubjectsPage /></AdminRoute>} />
-        <Route path="/admin/settings" element={<AdminRoute><SettingsPage /></AdminRoute>} />
+          {/* Protected Admin Routes - No separate login, use main /login */}
+          <Route path="/admin/dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+          <Route path="/admin/users" element={<AdminRoute><UsersPage /></AdminRoute>} />
+          <Route path="/admin/lessons" element={<AdminRoute><LessonsPage /></AdminRoute>} />
+          <Route path="/admin/notes" element={<AdminRoute><NotesPage /></AdminRoute>} />
+          <Route path="/admin/questions" element={<AdminRoute><QuestionsPage /></AdminRoute>} />
+          <Route path="/admin/images" element={<AdminRoute><ImagesPage /></AdminRoute>} />
+          <Route path="/admin/pricing" element={<AdminRoute><PricingPageAdmin /></AdminRoute>} />
+          <Route path="/admin/ai-config" element={<AdminRoute><AIConfigPage /></AdminRoute>} />
+          <Route path="/admin/subjects" element={<AdminRoute><AdminSubjectsPage /></AdminRoute>} />
+          <Route path="/admin/settings" element={<AdminRoute><SettingsPage /></AdminRoute>} />
 
-        {/* Redirect /admin to dashboard or login based on auth */}
-        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
-        <Route path="/admin/*" element={<Navigate to="/login" replace />} />
-      </Routes>
+          {/* Redirect /admin to dashboard or login based on auth */}
+          <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="/admin/*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </Suspense>
     );
   }
 
@@ -178,28 +175,30 @@ function AppShell() {
           exit={{ opacity: 0, y: -16 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
         >
-          <Routes location={location}>
-            {/* Public Routes */}
-            <Route path="/" element={<HomePage />} />
-            <Route path="/subjects" element={<SubjectsPage />} />
-            <Route path="/subjects/:subjectId" element={<SectionsPage />} />
-            <Route path="/subjects/:subjectId/lessons" element={<LessonsListPage />} />
-            <Route path="/subjects/:subjectId/:sectionId" element={<LessonsListPage />} />
-            <Route path="/lesson/:lessonId" element={<LessonPage />} />
-            <Route path="/lesson/:lessonId/questions" element={<QuestionPage />} />
-            <Route path="/pricing" element={<PricingPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-            <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-            <Route path="/support" element={<SupportPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/sample-content" element={<SampleContentPage />} />
-            <Route path="/refund-policy" element={<RefundPolicyPage />} />
-            <Route path="/contact" element={<ContactUsPage />} />
-          </Routes>
+          <Suspense fallback={<PageLoading />}>
+            <Routes location={location}>
+              {/* Public Routes */}
+              <Route path="/" element={<HomePage />} />
+              <Route path="/subjects" element={<SubjectsPage />} />
+              <Route path="/subjects/:subjectId" element={<SectionsPage />} />
+              <Route path="/subjects/:subjectId/lessons" element={<LessonsListPage />} />
+              <Route path="/subjects/:subjectId/:sectionId" element={<LessonsListPage />} />
+              <Route path="/lesson/:lessonId" element={<LessonPage />} />
+              <Route path="/lesson/:lessonId/questions" element={<QuestionPage />} />
+              <Route path="/pricing" element={<PricingPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignupPage />} />
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+              <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+              <Route path="/support" element={<SupportPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/sample-content" element={<SampleContentPage />} />
+              <Route path="/refund-policy" element={<RefundPolicyPage />} />
+              <Route path="/contact" element={<ContactUsPage />} />
+            </Routes>
+          </Suspense>
         </motion.main>
       </AnimatePresence>
       <Footer />
