@@ -1,5 +1,5 @@
 // Deployment trigger: 2026-02-11 (Render Backend Update)
-import { useState, useEffect, lazy, Suspense } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { ToastContainer } from 'react-toastify';
@@ -7,7 +7,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from './contexts/AuthContext';
 import { SettingsProvider, useSettings } from './contexts/SettingsContext';
 const LoadingScreen = lazy(() => import('./components/LoadingScreen'));
-import PageLoading from './components/common/PageLoading';
 const DocumentHead = lazy(() => import('./components/DocumentHead'));
 const ErrorBoundary = lazy(() => import('./components/common/ErrorBoundary'));
 const Navbar = lazy(() => import('./components/Navbar'));
