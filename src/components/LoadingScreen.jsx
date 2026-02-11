@@ -80,7 +80,7 @@ export default function LoadingScreen({ settings }) {
       y: 0,
       filter: "blur(0px)",
       transition: {
-        delay: 2.3,
+        delay: 1.6,
         duration: 1.2,
         ease: [0.22, 1, 0.36, 1]
       }
@@ -264,7 +264,7 @@ export default function LoadingScreen({ settings }) {
           className="mt-16 w-64 h-[2px] bg-white/10 rounded-full overflow-hidden relative shadow-[0_0_15px_rgba(255,255,255,0.1)]"
           initial={{ opacity: 0, scaleX: 0 }}
           animate={{ opacity: 1, scaleX: 1 }}
-          transition={{ delay: 2.5, duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 1.8, duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
         >
           <motion.div
             className="absolute top-0 left-0 h-full bg-gradient-to-r from-transparent via-white/80 to-transparent"

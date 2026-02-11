@@ -58,7 +58,7 @@ function AppContent() {
     if (!settingsLoading) {
       const timer = setTimeout(() => {
         setLoading(false);
-      }, 2000); // Increased to 2000ms for branding visibility
+      }, 4500); // Increased to 4.5s to allow full animation and branding visibility
       return () => clearTimeout(timer);
     }
   }, [settingsLoading]);
@@ -76,7 +76,7 @@ function AppContent() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <Suspense fallback={<LoadingScreen settings={settings} />}>
+            <Suspense fallback={<div className="fixed inset-0 bg-[#0B0B0D]" />}>
               <ErrorBoundary>
                 <AuthProvider>
                   <AppShell />
