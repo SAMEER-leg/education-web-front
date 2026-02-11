@@ -1,5 +1,5 @@
 // Deployment trigger: 2026-02-11 (Render Backend Update)
-import { useEffect, lazy, Suspense } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { ToastContainer } from 'react-toastify';
@@ -51,30 +51,51 @@ export default function App() {
 }
 
 function AppContent() {
-  const { settings } = useSettings();
+  const [loading, setLoading] = useState(true);
+  const { settings, loading: settingsLoading } = useSettings();
+
+  useEffect(() => {
+    if (!settingsLoading) {
+      const timer = setTimeout(() => {
+        setLoading(false);
+      }, 3000); // 3-second delay for branding
+      return () => clearTimeout(timer);
+    }
+  }, [settingsLoading]);
 
   return (
     <>
       <DocumentHead />
-      <div key="content">
-        <ErrorBoundary>
-          <AuthProvider>
-            <AppShell />
-            <ToastContainer
-              position="top-right"
-              autoClose={3000}
-              hideProgressBar={false}
-              newestOnTop
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="dark"
-            />
-          </AuthProvider>
-        </ErrorBoundary>
-      </div>
+      <AnimatePresence mode="wait">
+        {loading ? (
+          <LoadingScreen key="loading" settings={settings} />
+        ) : (
+          <motion.div
+            key="content"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <ErrorBoundary>
+              <AuthProvider>
+                <AppShell />
+                <ToastContainer
+                  position="top-right"
+                  autoClose={3000}
+                  hideProgressBar={false}
+                  newestOnTop
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  theme="dark"
+                />
+              </AuthProvider>
+            </ErrorBoundary>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

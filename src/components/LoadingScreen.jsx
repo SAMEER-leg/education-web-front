@@ -207,6 +207,20 @@ export default function LoadingScreen({ settings }) {
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         />
 
+        {/* 📚 Book Logo Variant */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="mb-8 relative"
+        >
+          <img
+            src="/logo.png"
+            alt="StudySouq Logo"
+            className="w-24 h-24 md:w-32 md:h-32 object-contain filter drop-shadow-[0_0_20px_rgba(6,181,204,0.6)] animate-pulse"
+          />
+          <div className="absolute inset-0 bg-[#06b5cc]/20 blur-2xl rounded-full -z-10 animate-pulse" />
+        </motion.div>
+
         {/* Platform Name Section */}
         <div className="flex flex-wrap justify-center relative px-12 perspective-1000">
           {platformName.split('').map((char, index) => (
