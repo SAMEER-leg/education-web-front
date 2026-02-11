@@ -52,16 +52,8 @@ export default function App() {
 }
 
 function AppContent() {
-  const [loading, setLoading] = useState(true);
-  const { settings, loading: settingsLoading } = useSettings();
-
   useEffect(() => {
-    if (!settingsLoading) {
-      const timer = setTimeout(() => {
-        setLoading(false);
-      }, 3000); // Reduced to 3s for better balance between branding and speed
-      return () => clearTimeout(timer);
-    }
+    setLoading(false);
   }, [settingsLoading]);
 
   return (
@@ -114,7 +106,7 @@ function AppShell() {
   // Admin routes have their own layout, so don't wrap them
   if (isAdminRoute) {
     return (
-      <Suspense fallback={<PageLoading />}>
+      <Suspense fallback={null}>
         <Routes location={location}>
           {/* Public Routes */}
           <Route path="/" element={<HomePage />} />
@@ -175,7 +167,7 @@ function AppShell() {
           exit={{ opacity: 0, y: -16 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
         >
-          <Suspense fallback={<PageLoading />}>
+          <Suspense fallback={null}>
             <Routes location={location}>
               {/* Public Routes */}
               <Route path="/" element={<HomePage />} />
