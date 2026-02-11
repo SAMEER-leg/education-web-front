@@ -76,7 +76,11 @@ function AppContent() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <Suspense fallback={<div className="fixed inset-0 bg-[#0B0B0D]" />}>
+            <Suspense fallback={
+              <div className="fixed inset-0 bg-[#0B0B0D] flex items-center justify-center z-[9999]">
+                <div className="w-12 h-12 border-4 border-white/10 border-t-[#06b5cc] rounded-full animate-spin" />
+              </div>
+            }>
               <ErrorBoundary>
                 <AuthProvider>
                   <AppShell />
