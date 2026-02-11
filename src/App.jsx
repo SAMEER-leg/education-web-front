@@ -52,43 +52,30 @@ export default function App() {
 }
 
 function AppContent() {
-  useEffect(() => {
-    setLoading(false);
-  }, [settingsLoading]);
+  const { settings } = useSettings();
 
   return (
     <>
       <DocumentHead />
-      <AnimatePresence mode="wait">
-        {loading ? (
-          <LoadingScreen key="loading" settings={settings} />
-        ) : (
-          <motion.div
-            key="content"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <ErrorBoundary>
-              <AuthProvider>
-                <AppShell />
-                <ToastContainer
-                  position="top-right"
-                  autoClose={3000}
-                  hideProgressBar={false}
-                  newestOnTop
-                  closeOnClick
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme="dark"
-                />
-              </AuthProvider>
-            </ErrorBoundary>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div key="content">
+        <ErrorBoundary>
+          <AuthProvider>
+            <AppShell />
+            <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="dark"
+            />
+          </AuthProvider>
+        </ErrorBoundary>
+      </div>
     </>
   );
 }
