@@ -55,17 +55,17 @@ export default function StripeCheckoutForm({ amount, currency, paymentId, onCanc
 
     return (
         <form id="payment-form" onSubmit={handleSubmit} className="space-y-4">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
-                <div className="flex items-center justify-between mb-4 px-1">
+            <div className="bg-white/5 border border-white/10 rounded-xl p-2 sm:p-3">
+                <div className="flex flex-col sm:flex-row items-center justify-between mb-4 gap-3 px-1">
                     <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-xl bg-[#06b5cc]/10 flex items-center justify-center border border-[#06b5cc]/20">
+                        <div className="w-8 h-8 rounded-xl bg-[#06b5cc]/10 flex items-center justify-center border border-[#06b5cc]/20 shrink-0">
                             <ShieldCheck className="w-5 h-5 text-[#06b5cc]" />
                         </div>
-                        <h3 className="text-white font-black text-xs uppercase tracking-[0.1em]">Secure Checkout</h3>
+                        <h3 className="text-white font-black text-[13px] sm:text-xs uppercase tracking-[0.1em]">Secure Checkout</h3>
                     </div>
                     <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#06b5cc]/20 border border-[#06b5cc]/40 shadow-[0_0_20px_rgba(6,181,204,0.3)] animate-pulse-subtle">
                         <Crown className="w-4 h-4 text-[#06b5cc]" />
-                        <span className="text-[10px] text-[#06b5cc] font-black uppercase tracking-widest">Premium Access</span>
+                        <span className="text-[11px] text-[#06b5cc] font-black uppercase tracking-widest">Premium Access</span>
                     </div>
                 </div>
 
@@ -76,11 +76,11 @@ export default function StripeCheckoutForm({ amount, currency, paymentId, onCanc
 
             {/* Price Summary */}
             <div className="px-1 py-1">
-                <div className="flex items-center justify-between p-3 bg-white/5 border border-white/10 rounded-xl">
-                    <span className="text-[11px] text-[#94A3B8] font-bold uppercase tracking-wider">Total Amount</span>
+                <div className="flex items-center justify-between p-3 sm:p-3 bg-white/5 border border-white/10 rounded-xl">
+                    <span className="text-[12px] sm:text-[11px] text-[#94A3B8] font-bold uppercase py-2 tracking-wider">Total Amount</span>
                     <div className="text-right">
-                        <span className="text-[10px] text-[#06b5cc] font-black mr-1">{currency?.toUpperCase()}</span>
-                        <span className="text-lg font-black text-white leading-none">{amount}</span>
+                        <span className="text-[11px] sm:text-[10px] text-[#06b5cc] font-black mr-1">{currency?.toUpperCase()}</span>
+                        <span className="text-[12px] sm:text-[10px] font-black text-white leading-none">{amount}</span>
                     </div>
                 </div>
             </div>
@@ -93,34 +93,37 @@ export default function StripeCheckoutForm({ amount, currency, paymentId, onCanc
             )}
 
             {/* Action Buttons - Separated to Corners */}
-            <div className="flex justify-between items-center pt-8 gap-4 px-1">
-                <button
-                    type="button"
-                    onClick={onCancel}
-                    className="px-6 py-3 bg-[#111111] hover:bg-white/5 border border-white/10 rounded-full text-[#94A3B8] transition-all font-bold text-[11px] hover:text-red-500 hover:border-red-500/30 flex items-center gap-2 group"
-                >
-                    <span className="group-hover:translate-x-[-2px] transition-transform">Cancel Payment</span>
-                </button>
-
+            {/* Action Buttons - Stacked on Mobile */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center pt-6 sm:pt-8 gap-3 sm:gap-4 px-1">
                 <button
                     disabled={isLoading || !stripe || !elements}
                     id="submit"
-                    className="flex-1 py-4 btn-orange rounded-2xl font-black transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 shadow-2xl shadow-orange-500/30 text-[12px] uppercase tracking-[0.15em] relative overflow-hidden group"
+                    className="w-full sm:flex-1 py-3.5 sm:py-4 btn-orange rounded-xl sm:rounded-2xl font-black transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-2xl shadow-orange-500/30 text-[15px] sm:text-[12px] uppercase tracking-[0.05em] sm:tracking-[0.15em] relative overflow-hidden group order-1 sm:order-2"
                 >
                     <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                    <span className="relative z-10 flex items-center gap-2">
+                    <span className="relative z-10 flex items-center justify-center gap-2">
                         {isLoading ? (
                             <>
-                                <Loader2 className="w-4 h-4 animate-spin" />
-                                Processing...
+                                <Loader2 className="w-4 h-4 animate-spin text-white" />
+                                <span className="text-white">Processing...</span>
                             </>
                         ) : (
                             <>
-                                <span>Confirm & Pay {currency?.toUpperCase()} {amount}</span>
-                                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                <span className="text-white">Confirm & Pay {currency?.toUpperCase()} {amount}</span>
+                                <ChevronRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
                             </>
                         )}
                     </span>
+                </button>
+                  </div>
+                  <div>
+
+                <button
+                    type="button"
+                    onClick={onCancel}
+                    className="w-full flex sm:w-auto px-6 py-3 sm:py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl sm:rounded-full text-[#94A3B8] transition-all font-bold text-[14px] sm:text-[11px] hover:text-red-500 hover:border-red-500/30 flex items-center justify-center gap-2 order-2 sm:order-1"
+                >
+                    <span>Cancel Payment</span>
                 </button>
             </div>
 

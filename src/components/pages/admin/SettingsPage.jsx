@@ -23,7 +23,7 @@ export default function SettingsPage() {
       tagline: '',
       logo: '',
       favicon: '',
-      currency: 'EGP',
+      currency: 'USD',
       colors: {
         primary: '#06b5cc',
         secondary: '#11282b',
@@ -283,13 +283,13 @@ export default function SettingsPage() {
                         <label className="text-sm font-medium text-[#94A3B8]">Currency Symbol</label>
                         <input
                           type="text"
-                          value={settings.branding?.currency || 'EGP'}
+                          value={settings.branding?.currency || 'USD'}
                           onChange={(e) => setSettings({
                             ...settings,
                             branding: { ...settings.branding, currency: e.target.value }
                           })}
                           className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white focus:border-[#06b5cc] focus:outline-none"
-                          placeholder="e.g. EGP, $, USD"
+                          placeholder="e.g. USD, $, EGP"
                         />
                       </div>
                     </div>

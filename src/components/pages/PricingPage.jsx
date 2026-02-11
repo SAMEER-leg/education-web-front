@@ -202,7 +202,7 @@ export default function PricingPage() {
   };
 
   // Helper function to format price
-  const formatPrice = (price, currency = 'EGP') => {
+  const formatPrice = (price, currency = 'USD') => {
     return `${currency} ${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   };
 
@@ -264,7 +264,7 @@ export default function PricingPage() {
         }} className="bg-gradient-to-br from-[#111113] to-[#111113]/50 border border-white/10 rounded-2xl p-6 md:p-8 hover:border-[#06b5cc]/30 transition-all duration-300 shadow-lg hover:shadow-[#06b5cc]/5">
           <h3 className="mb-2 text-[#06b5cc] font-bold">Free</h3>
           <div className="mb-6">
-            <span className="text-4xl text-white font-bold">{settings.branding?.currency || 'EGP'} 0</span>
+            <span className="text-4xl text-white font-bold">{settings.branding?.currency || 'USD'} 0</span>
             <span className="text-[#94A3B8]">/month</span>
           </div>
           <ul className="space-y-3 mb-8">
@@ -327,7 +327,7 @@ export default function PricingPage() {
               )}
 
               <div className="mb-6">
-                <span className="text-4xl">{formatPrice(plan.price, plan.currency || settings.branding?.currency || 'EGP')}</span>
+                <span className="text-4xl">{formatPrice(plan.price, plan.currency || settings.branding?.currency || 'USD')}</span>
                 <span className="text-[#94A3B8]">{getDurationText(plan.duration)}</span>
               </div>
 
@@ -639,7 +639,7 @@ export default function PricingPage() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
               <span style={{ fontSize: '14px', color: '#94A3B8' }}>Price</span>
               <span style={{ fontSize: '16px', color: '#F7C94C', fontWeight: '600' }}>
-                {settings.branding?.currency || 'EGP'} {selectedPlan?.amount?.toLocaleString() || '249.99'}
+                {settings.branding?.currency || 'USD'} {selectedPlan?.amount?.toLocaleString() || '249.99'}
               </span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

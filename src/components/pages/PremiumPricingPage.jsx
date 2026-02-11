@@ -342,7 +342,7 @@ export default function PremiumPricingPage() {
             </div>
 
             {/* Stripe Elements */}
-            <div className="p-6 overflow-y-auto max-h-[60vh] custom-scrollbar relative z-10">
+            <div className="p-4 sm:p-6 overflow-y-auto max-h-[70vh] sm:max-h-[60vh] custom-scrollbar relative z-10">
               <Elements
                 stripe={stripePromise}
                 options={{
@@ -356,6 +356,7 @@ export default function PremiumPricingPage() {
                       colorText: '#ffffff',
                       colorDanger: '#EF4444',
                       fontFamily: 'Outfit, system-ui, sans-serif',
+                      fontSizeBase: '16px',
                       spacingUnit: '4px',
                       borderRadius: '12px',
                     },

@@ -160,14 +160,14 @@ export default function Navbar() {
                         <Link
                           to="/login"
                           onClick={() => setMobileMenuOpen(false)}
-                          className="block px-4 py-3 rounded-lg btn-orange text-center transition-colors mb-2"
+                          className="block px-4 py-3.5 rounded-xl btn-orange text-center font-bold transition-all shadow-lg active:scale-95 mb-3"
                         >
                           Login
                         </Link>
                         <Link
                           to="/signup"
                           onClick={() => setMobileMenuOpen(false)}
-                          className="block px-4 py-3 rounded-lg border border-primary-cyan hover:bg-[#06b5cc]/10 text-center transition-colors"
+                          className="block px-4 py-3.5 rounded-xl border border-[#06b5cc]/30 bg-[#06b5cc]/5 hover:bg-[#06b5cc]/10 text-white text-center font-bold transition-all active:scale-95"
                         >
                           Sign Up
                         </Link>

@@ -174,13 +174,13 @@ export default function ProfilePage() {
                 </span>
               </h1>
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 md:gap-3 text-[#94A3B8]">
-                <div className="flex items-center gap-2 text-[10px] md:text-xs bg-white/5 px-3 md:px-4 py-2 md:py-2.5 rounded-full border border-white/5 whitespace-nowrap group hover:border-[#06b5cc]/30 transition-colors">
-                  <Mail className="w-3.5 h-3.5 text-[#06b5cc] group-hover:scale-110 transition-transform" />
-                  <span className="text-white/80">{user.email}</span>
+                <div className="flex items-center gap-2 text-[10px] md:text-xs bg-white/5 px-3 md:px-4 py-2 md:py-2.5 rounded-full border border-white/5 group hover:border-[#06b5cc]/30 transition-colors max-w-[150px] sm:max-w-none">
+                  <Mail className="w-3.5 h-3.5 text-[#06b5cc] shrink-0 group-hover:scale-110 transition-transform" />
+                  <span className="text-white/80 truncate">{user.email}</span>
                 </div>
-                <div className="flex items-center gap-2 text-[10px] md:text-xs bg-white/5 px-3 md:px-4 py-2 md:py-2.5 rounded-full border border-white/5 whitespace-nowrap group hover:border-[#F7C94C]/30 transition-colors">
-                  <Shield className="w-3.5 h-3.5 text-[#F7C94C] group-hover:scale-110 transition-transform" />
-                  <span className="text-white/80">{user.isPremium ? 'Premium Student' : (user.role === 'admin' ? 'Administrator' : 'Basic Member')}</span>
+                <div className="flex items-center gap-2 text-[10px] md:text-xs bg-white/5 px-3 md:px-4 py-2 md:py-2.5 rounded-full border border-white/5 group hover:border-[#F7C94C]/30 transition-colors">
+                  <Shield className="w-3.5 h-3.5 text-[#F7C94C] shrink-0 group-hover:scale-110 transition-transform" />
+                  <span className="text-white/80">{user.isPremium ? 'Premium' : (user.role === 'admin' ? 'Admin' : 'Basic')}</span>
                 </div>
                 {user.isPremium && (
                   <div className="flex items-center gap-2 px-4 md:px-5 py-2 md:py-2.5 rounded-full bg-[#F7C94C]/10 border border-[#F7C94C]/30 text-[#F7C94C] text-[10px] md:text-xs font-black uppercase tracking-widest shadow-[0_0_15px_rgba(247,201,76,0.1)] whitespace-nowrap animate-shine-slow">
@@ -335,7 +335,7 @@ export default function ProfilePage() {
                   {!user.isPremium ? (
                     <Link
                       to="/pricing"
-                      className="block w-full py-4 bg-gradient-to-r from-[#F7C94C] to-[#F59E0B] hover:from-[#F59E0B] hover:to-[#D97706] text-[#1A1A1D] font-bold rounded-xl text-center shadow-lg shadow-orange-500/20 transition-all hover:scale-[1.02]"
+                      className="block w-full py-3 md:py-4 bg-gradient-to-r from-[#F7C94C] to-[#F59E0B] hover:from-[#F59E0B] hover:to-[#D97706] text-[#1A1A1D] font-bold rounded-xl text-center shadow-lg shadow-orange-500/20 transition-all hover:scale-[1.02]"
                     >
                       Upgrade Now
                     </Link>
@@ -382,7 +382,7 @@ export default function ProfilePage() {
 
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center p-3 bg-red-500/5 hover:bg-red-500/10 border border-red-500/10 hover:border-red-500/30 rounded-xl transition-all group text-left mt-4"
+                    className="w-full flex items-center justify-center md:justify-start p-3 bg-red-500/5 hover:bg-red-500/10 border border-red-500/10 hover:border-red-500/30 rounded-xl transition-all group mt-4"
                   >
                     <div className="p-2 bg-red-500/10 rounded-lg mr-3 group-hover:scale-110 transition-transform">
                       <LogOut className="w-4 h-4 text-red-500" />

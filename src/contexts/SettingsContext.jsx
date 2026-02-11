@@ -10,7 +10,7 @@ const defaultSettings = {
     logo: '',
     favicon: '',
     tagline: '',
-    currency: 'EGP'
+    currency: 'USD'
   },
   contact: {
     supportEmail: '',
@@ -138,7 +138,7 @@ export function SettingsProvider({ children }) {
             logo: apiSettings.branding?.logo || '',
             favicon: apiSettings.branding?.favicon || '',
             tagline: apiSettings.branding?.tagline || '',
-            currency: apiSettings.branding?.currency || 'EGP'
+            currency: apiSettings.branding?.currency || 'USD'
           },
           contact: {
             supportEmail: apiSettings.contact?.supportEmail || '',
