@@ -167,7 +167,7 @@ export default function Navbar() {
                         <Link
                           to="/signup"
                           onClick={() => setMobileMenuOpen(false)}
-                          className="block px-4 py-3.5 rounded-xl border border-[#06b5cc]/30 bg-[#06b5cc]/5 hover:bg-[#06b5cc]/10 text-white text-center font-bold transition-all active:scale-95"
+                          className="block px-4 py-3 rounded-xl border border-[#06b5cc]/30 bg-[#06b5cc]/5 hover:bg-[#06b5cc]/10 text-white text-center font-bold transition-all active:scale-95"
                         >
                           Sign Up
                         </Link>

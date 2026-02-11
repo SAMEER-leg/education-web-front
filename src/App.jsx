@@ -58,7 +58,7 @@ function AppContent() {
     if (!settingsLoading) {
       const timer = setTimeout(() => {
         setLoading(false);
-      }, 500); // Reduced to 500ms for quick entry but smooth transition
+      }, 2000); // Increased to 2000ms for branding visibility
       return () => clearTimeout(timer);
     }
   }, [settingsLoading]);
