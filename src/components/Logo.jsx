@@ -31,7 +31,7 @@ export default function Logo({ className, ...props }) {
         <div className="relative w-10 h-10 md:w-12 md:h-12 flex items-center justify-center shrink-0">
           <img
             src="/logo.png"
-            alt="StudySouq Logo"
+            alt={`${platformName || 'Platform'} Logo`}
             className="w-full h-full object-contain filter drop-shadow-[0_0_12px_rgba(6,181,204,0.7)] hover:scale-110 transition-transform duration-300 pointer-events-none"
             onError={(e) => {
               console.error("Local logo failed to load", e);

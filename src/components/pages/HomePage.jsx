@@ -135,7 +135,7 @@ export default function HomePage() {
                 {/* Background Image */}
                 <img
                   src={settings.homepage?.hero?.heroImage || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=2000'}
-                  alt={settings.branding?.platformName || "Study Souq"}
+                  alt={settings.branding?.platformName || "Educational Platform"}
                   className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000"
                 />
 

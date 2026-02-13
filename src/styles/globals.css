@@ -188,7 +188,7 @@ html {
   font-size: var(--font-size);
 }
 
-/* Custom StudySouq Typography */
+/* Custom Platform Typography */
 @layer base {
   h1 {
     font-size: 2.5rem !important;
