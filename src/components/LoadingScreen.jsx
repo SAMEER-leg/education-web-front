@@ -214,9 +214,9 @@ export default function LoadingScreen({ settings }) {
           className="mb-8 relative"
         >
           <img
-            src="/logo.png"
-            alt="StudySouq Logo"
-            className="w-24 h-24 md:w-32 md:h-32 object-contain filter drop-shadow-[0_0_20px_rgba(6,181,204,0.6)] animate-pulse"
+            src={settings?.branding?.logo || settings?.branding?.favicon || '/logo.png'}
+            alt={`${platformName} Logo`}
+            className="w-20 h-20 md:w-20 md:h-20 max-h-20 object-contain filter drop-shadow-[0_0_20px_rgba(6,181,204,0.6)] animate-pulse"
           />
           <div className="absolute inset-0 bg-[#06b5cc]/20 blur-2xl rounded-full -z-10 animate-pulse" />
         </motion.div>

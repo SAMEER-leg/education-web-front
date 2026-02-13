@@ -1,6 +1,9 @@
 import { motion } from 'motion/react';
+import { useSettings } from '../../contexts/SettingsContext';
 
 const PageLoading = () => {
+    const { settings } = useSettings();
+
     return (
         <div className="flex-1 flex flex-col items-center justify-center min-h-[60vh] py-20 bg-[#0B0B0D]">
             <motion.div
@@ -11,7 +14,7 @@ const PageLoading = () => {
             >
                 <div className="relative w-16 h-16 md:w-20 md:h-20">
                     <img
-                        src="/logo.png"
+                        src={settings?.branding?.logo || settings?.branding?.favicon || '/logo.png'}
                         alt="Loading..."
                         className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(6,181,204,0.6)] animate-pulse"
                     />
