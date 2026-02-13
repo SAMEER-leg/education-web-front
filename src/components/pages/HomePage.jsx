@@ -150,7 +150,7 @@ export default function HomePage() {
                     {/* Glowing effect inside plate */}
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#06b5cc] to-transparent opacity-50" />
 
-                    <h2 className="text-2xl sm:text-3xl font-black text-white mb-2 tracking-tighter uppercase leading-none">
+                    <h2 className="text-2xl sm:text-3xl font-black text-gradient-cyan mb-2 tracking-tighter uppercase leading-none">
                       Next-Gen <br />
                       <span className="text-gradient-cyan">Learning Hub</span>
                     </h2>
