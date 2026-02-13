@@ -207,18 +207,24 @@ export default function LoadingScreen({ settings }) {
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         />
 
-        {/* 📚 Book Logo Variant */}
+        {/* Dynamic Logo or Spinner */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           className="mb-8 relative"
         >
-          <img
-            src={settings?.branding?.logo || settings?.branding?.favicon || '/logo.png'}
-            alt={`${platformName} Logo`}
-            className="w-20 h-20 md:w-20 md:h-20 max-h-20 object-contain filter drop-shadow-[0_0_20px_rgba(6,181,204,0.6)] animate-pulse"
-          />
-          <div className="absolute inset-0 bg-[#06b5cc]/20 blur-2xl rounded-full -z-10 animate-pulse" />
+          {(settings?.branding?.logo || settings?.branding?.favicon) ? (
+            <>
+              <img
+                src={settings.branding.logo || settings.branding.favicon}
+                alt={`${platformName} Logo`}
+                className="w-20 h-20 md:w-20 md:h-20 max-h-20 object-contain filter drop-shadow-[0_0_20px_rgba(6,181,204,0.6)] animate-pulse"
+              />
+              <div className="absolute inset-0 bg-[#06b5cc]/20 blur-2xl rounded-full -z-10 animate-pulse" />
+            </>
+          ) : (
+            <div className="w-16 h-16 border-4 border-[#06b5cc]/20 border-t-[#06b5cc] rounded-full animate-spin shadow-[0_0_15px_rgba(6,181,204,0.3)]" />
+          )}
         </motion.div>
 
         {/* Platform Name Section */}
