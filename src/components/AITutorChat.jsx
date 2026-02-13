@@ -492,22 +492,7 @@ export default function AITutorChat() {
         return;
       }
 
-      // Check if question is lesson-related (client-side basic check)
-      const isRelated = isLessonRelated(userMessage, lessonContext);
-
-      if (!isRelated) {
-        setTimeout(() => {
-          const aiMessage = {
-            text: "Main sirf lesson se related sawaalon ka jawab de sakta hoon.",
-            sender: 'ai'
-          };
-          setMessages([...newMessages, aiMessage]);
-          setIsLoading(false);
-        }, 500);
-        return;
-      }
-
-      // Prepare conversation history (exclude welcome message)
+      // Process the message (always call AI now to allow more natural conversation)
       const conversationHistory = messages
         .filter((msg, index) => index > 0) // Skip first welcome message
         .map(msg => ({
