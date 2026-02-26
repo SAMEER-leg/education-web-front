@@ -58,7 +58,7 @@ function AppContent() {
     if (!settingsLoading) {
       const timer = setTimeout(() => {
         setLoading(false);
-      }, 3000); // 3-second delay for branding
+      }, 1000); // Reduced delay for faster branding
       return () => clearTimeout(timer);
     }
   }, [settingsLoading]);

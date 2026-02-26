@@ -122,7 +122,7 @@ export default function SignupPage() {
                   type="text"
                   value={name}
                   onChange={e => setName(e.target.value)}
-                  placeholder="John Doe"
+                  placeholder="Enter your name"
                   autoComplete="off"
                   className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-[#06b5cc] transition-colors"
                 />

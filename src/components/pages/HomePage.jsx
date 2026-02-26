@@ -54,7 +54,7 @@ export default function HomePage() {
       <div className="absolute inset-0 z-0 bg-mesh opacity-60" />
 
       {/* Decorative Blobs */}
-      <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-[#06b5cc]/10 blur-[120px] rounded-full animate-pulse" />
+      <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-[#06b5cc]/10 blur-[120px] rounded-full" />
       <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-[#11282b]/30 blur-[120px] rounded-full" />
 
       <div className="relative w-full max-w-7xl mx-auto z-10 px-4 sm:px-6 lg:px-8">
