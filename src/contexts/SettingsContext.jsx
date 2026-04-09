@@ -106,17 +106,12 @@ export function SettingsProvider({ children }) {
       setLoading(true);
       setError(null);
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
-
+      // Start the request
       const response = await fetch(`${API_BASE_URL}/settings`, {
-        signal: controller.signal,
         headers: {
           'Content-Type': 'application/json',
         },
       });
-
-      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -124,14 +119,10 @@ export function SettingsProvider({ children }) {
 
       const data = await response.json();
 
-      // Debug logging (only in development)
-      // Removed verbose console.log statements for production readiness
-
       if (data.success && data.data) {
-        // Use API data directly - API already returns full structure
         const apiSettings = data.data;
 
-        // Ensure all required structure exists with proper defaults
+        // Ensure structures exist with proper defaults
         const finalSettings = {
           branding: {
             platformName: apiSettings.branding?.platformName || '',
@@ -218,27 +209,19 @@ export function SettingsProvider({ children }) {
           }
         };
 
-        // Debug logging
-        // Settings loaded successfully
-
         setSettings(finalSettings);
       } else {
-        // If response structure is unexpected, use defaults
-        // Unexpected settings response structure, using defaults
         setSettings(defaultSettings);
       }
     } catch (err) {
-      // Error fetching settings - handled by error state
-
-      // Retry on network errors
+      console.error('Settings fetch error:', err);
+      
       if (retryCount < MAX_RETRIES && (err.name === 'TypeError' || err.name === 'AbortError')) {
-        // Retrying settings fetch
-        await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1))); // Exponential backoff
-        return fetchSettings(retryCount + 1);
+        setTimeout(() => fetchSettings(retryCount + 1), 1000 * (retryCount + 1));
+        return;
       }
 
       setError(err);
-      // Use defaults on error - never break the app
       setSettings(defaultSettings);
     } finally {
       setLoading(false);

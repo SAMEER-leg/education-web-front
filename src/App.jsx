@@ -51,23 +51,27 @@ export default function App() {
 }
 
 function AppContent() {
-  const [loading, setLoading] = useState(true);
+  const [timerDone, setTimerDone] = useState(false);
   const { settings, loading: settingsLoading } = useSettings();
 
   useEffect(() => {
-    if (!settingsLoading) {
-      const timer = setTimeout(() => {
-        setLoading(false);
-      }, 3000); // 3-second delay for full branding & tagline
-      return () => clearTimeout(timer);
-    }
-  }, [settingsLoading]);
+    // Start the minimum 4.5-second branding timer immediately
+    const timer = setTimeout(() => {
+      setTimerDone(true);
+    }, 4500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Show loading screen if EITHER the 3s timer is still running
+  // OR the settings are still being fetched from the backend.
+  // This ensures a professional wait time while guaranteeing real data is ready.
+  const showLoading = !timerDone || settingsLoading;
 
   return (
     <>
       <DocumentHead />
       <AnimatePresence mode="wait">
-        {loading ? (
+        {showLoading ? (
           <LoadingScreen key="loading" settings={settings} />
         ) : (
           <motion.div
@@ -132,9 +136,9 @@ function AppShell() {
           <Route path="/terms-of-service" element={<TermsOfServicePage />} />
           <Route path="/support" element={<SupportPage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/sample-content" element={<SampleContentPage />} />
-          <Route path="/refund-policy" element={<RefundPolicyPage />} />
           <Route path="/contact" element={<ContactUsPage />} />
+          <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
+          <Route path="/terms" element={<Navigate to="/terms-of-service" replace />} />
 
           {/* Protected Admin Routes - No separate login, use main /login */}
           <Route path="/admin/dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
@@ -196,6 +200,8 @@ function AppShell() {
               <Route path="/sample-content" element={<SampleContentPage />} />
               <Route path="/refund-policy" element={<RefundPolicyPage />} />
               <Route path="/contact" element={<ContactUsPage />} />
+              <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
+              <Route path="/terms" element={<Navigate to="/terms-of-service" replace />} />
             </Routes>
           </Suspense>
         </motion.main>

@@ -43,6 +43,7 @@ export const sendAIMessage = async (message, conversationHistory = [], lessonId 
     return {
       success: false,
       message: error.response?.data?.message || 'Failed to get AI response. Please try again.',
+      devError: error.response?.data?.devError, // Capture detailed error
       data: null
     };
   }

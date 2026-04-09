@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { getLessonById } from '../services/publicService';
 import { API_BASE_URL } from '../config/api';
 import { sendAIMessage as sendAIMessageService } from '../services/chatService';
+import { useSettings } from '../contexts/SettingsContext';
 
 // Helper function to format message text with markdown-like support
 const formatMessageText = (text) => {
@@ -87,6 +88,7 @@ export default function AITutorChat() {
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
   const { lessonId } = useParams();
+  const { settings } = useSettings();
 
   // Get lesson context - define early to avoid hoisting issues
   const [lessonContext, setLessonContext] = useState(null);
@@ -421,9 +423,10 @@ export default function AITutorChat() {
     // Show welcome message again
     setTimeout(() => {
       const lessonContext = getLessonContext();
+      const platformName = settings?.branding?.platformName || 'Educational Platform';
       const welcomeMessage = lessonContext
         ? `Hi! 👋 I'm your AI tutor for "${lessonContext.title}". Ask me anything about this lesson!`
-        : `Hi! 👋 I'm your AI tutor. Ask me anything about your lessons!`;
+        : `Hi! 👋 I'm your AI tutor for ${platformName}. Ask me anything about your lessons!`;
 
       const welcomeMsg = {
         text: welcomeMessage,
@@ -475,23 +478,6 @@ export default function AITutorChat() {
     setIsLoading(true);
 
     try {
-      // Handle greetings
-      if (isGreeting(userMessage)) {
-        const greetingResponse = lessonContext
-          ? `Hello! I'm here to help you with "${lessonContext.title}". What would you like to know about this lesson?`
-          : "Hello! I'm your AI tutor. How can I help you with your lesson today?";
-
-        setTimeout(() => {
-          const aiMessage = {
-            text: greetingResponse,
-            sender: 'ai'
-          };
-          setMessages([...newMessages, aiMessage]);
-          setIsLoading(false);
-        }, 500);
-        return;
-      }
-
       // Process the message (always call AI now to allow more natural conversation)
       const conversationHistory = messages
         .filter((msg, index) => index > 0) // Skip first welcome message
@@ -512,7 +498,9 @@ export default function AITutorChat() {
     } catch (error) {
       console.error('AI Tutor Error:', error);
       const errorMessage = {
-        text: error.message || 'Sorry, I encountered an error. Please try again later.',
+        text: error.devError 
+          ? `❌ AI Config Error: ${error.devError}`
+          : error.message || 'Sorry, I encountered an error. Please try again later.',
         sender: 'ai'
       };
       setMessages([...newMessages, errorMessage]);
